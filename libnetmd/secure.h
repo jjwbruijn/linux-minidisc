@@ -55,7 +55,6 @@ typedef struct netmd_track_packets {
     size_t length;
 
     /** next packet to transfer (linked list) */
-    struct netmd_track_packets *next;
 } netmd_track_packets;
 
 /**
@@ -147,9 +146,7 @@ netmd_error netmd_secure_send_track(netmd_dev_handle *dev,
                                     unsigned char discformat,
                                     unsigned int frames,
                                     netmd_track_packets *packets,
-                                    size_t packet_length,
                                     unsigned char *sessionkey,
-
                                     uint16_t *track, unsigned char *uuid,
                                     unsigned char *content_id);
 

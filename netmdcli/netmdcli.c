@@ -505,7 +505,7 @@ int main(int argc, char* argv[])
             fclose(f);
         }
         else if (strcmp("send", argv[1]) == 0) {
-            if (!check_args(argc, 2, "send")) return -1;
+            if (!check_args(argc, 3, "send")) return -1;
             netmd_error error;
                     netmd_ekb ekb;
                     unsigned char chain[] = {0x25, 0x45, 0x06, 0x4d, 0xea, 0xca,
@@ -689,7 +689,7 @@ int main(int argc, char* argv[])
                         error = netmd_secure_send_track(devh, wireformat,
                                                         discformat,
                                                         frames, packets,
-                                                        packet_length, sessionkey,
+							sessionkey,
                                                         &track, uuid, new_contentid);
                         netmd_log(NETMD_LOG_VERBOSE, "netmd_secure_send_track : %s\n", netmd_strerror(error));
 
@@ -698,8 +698,8 @@ int main(int argc, char* argv[])
                         free(data);
                         audio_data = NULL;
 
-                        /* set title, use filename */
-                        memcpy(title, argv[2], strlen(argv[2])-4);
+                        /* set title, use argument from command line */
+                        memcpy(title, argv[3], strlen(argv[3]));
                         netmd_log(NETMD_LOG_VERBOSE, "New Track: %d\n", track);
                         netmd_cache_toc(devh);
                         netmd_set_title(devh, track, title);
@@ -956,15 +956,17 @@ void print_syntax()
     puts("stop - stop the unit");
     puts("delete #1 - delete track");
     puts("m3uimport - import playlist - and title current disc using it.");
-    puts("send #1 - send wav audio file #1 to the device");
-    puts("          #1 supported files: 16 bit pcm (stere or mono) @44100Hz or");
+    puts("send #1 #2 - send wav audio file #1 to the device");
+    puts("          #1 supported files: 16 bit pcm (stereo or mono) @44100Hz or");
     puts("          Atrac LP2/LP4 stored in a wav container");
+    puts("          #2 Title");
     puts("raw - send raw command (hex)");
     puts("setplaymode (single, repeat, shuffle) - set play mode");
     puts("newgroup <string> - create a new group named <string>");
     puts("settitle <string> - manually set the complete disc title (with group information)");
     puts("settime <track> [<hour>] <minute> <second> [<frame>] - seeks to the given timestamp");
     puts("      (if three values are given, they are minute, second and frame)");
+    puts("capacity - shows current minidisc capacity (used, available)");
     puts("secure #1 #2 - execute secure command #1 on track #2 (where applicable)");
     puts("  --- general ---");
     puts("  0x80 = start secure session");
