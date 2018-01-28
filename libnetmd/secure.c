@@ -446,7 +446,7 @@ netmd_error netmd_prepare_packets(unsigned char* data, size_t data_length,
         (*packet_count)++;
 	*packets = packet;
 	*packet_count = 1;
-        netmd_log(NETMD_LOG_VERBOSE, "Encrypting data: %d bytes\n", *packet_count, packet->length);
+        netmd_log(NETMD_LOG_VERBOSE, "Encrypted %d bytes\n", packet->length);
 
     gcry_cipher_close(key_handle);
     gcry_cipher_close(data_handle);
